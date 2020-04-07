@@ -4,7 +4,7 @@ local ttt2_minigames_autostart = GetConVar("ttt2_minigames_autostart")
 hook.Add("TTTPrepareRound", "TTT2MGPrepareRound", function()
 	local activeMinigames = minigames.GetActiveList()
 
-	for i = 1, i < #activeMinigames do
+	for i = 1, #activeMinigames do
 		DeactivateMinigame(activeMinigames[i])
 	end
 end)

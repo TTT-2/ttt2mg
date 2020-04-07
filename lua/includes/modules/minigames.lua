@@ -77,6 +77,26 @@ function minigames.Register(t, name)
 end
 
 ---
+-- Automatically generates ConVars based on the minigames data
+-- @param table minigame The minigame table
+-- @todo ConVar list
+-- @realm shared
+-- @local
+local function SetupData(minigame)
+	print("[TTT2][MINIGAMES] Adding '" .. minigameData.name .. "' minigame...")
+
+	if not SERVER then return end
+
+	---
+	-- @name ttt2_minigames_[MINIGAME]_enabled
+	CreateConVar("ttt2_minigames_" .. minigameData.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+
+	---
+	-- @name ttt2_minigames_[MINIGAME]_random
+	CreateConVar("ttt2_minigames_" .. minigameData.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+end
+
+---
 -- All scripts have been loaded...
 -- @local
 -- @realm shared
@@ -179,26 +199,6 @@ function minigames.GetRealList()
 	return result
 end
 
----
--- Automatically generates ConVars based on the minigames data
--- @param table minigame The minigame table
--- @todo ConVar list
--- @realm shared
--- @local
-local function SetupData(minigame)
-	print("[TTT2][MINIGAMES] Adding '" .. minigameData.name .. "' minigame...")
-
-	if not SERVER then return end
-
-	---
-	-- @name ttt2_minigames_[MINIGAME]_enabled
-	CreateConVar("ttt2_minigames_" .. minigameData.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
-	
-	---
-	-- @name ttt2_minigames_[MINIGAME]_random
-	CreateConVar("ttt2_minigames_" .. minigameData.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
-end
-
 if SERVER then
 	---
 	-- Selects a minigame based on the current available minigames
@@ -206,12 +206,12 @@ if SERVER then
 	-- @realm server
 	function minigames.Select()
 		local mgs = minigames.GetList()
-		
+
 		if #mgs == 0 then return end
 
 		local availableMinigames = {}
 
-		for i = 1, i < #mgs do
+		for i = 1, #mgs do
 			local minigame = mgs[i]
 
 			if minigame:IsActive() then continue end -- don't include active minigames
@@ -246,7 +246,7 @@ function minigames.GetActiveList()
 	local activeMinigames = {}
 	local mgs = GetList()
 
-	for i = 1, i < #mgs do
+	for i = 1, #mgs do
 		local mg = mgs[i]
 
 		if mg:IsActive() then
