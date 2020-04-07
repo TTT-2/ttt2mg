@@ -200,6 +200,22 @@ function minigames.GetRealList()
 end
 
 if SERVER then
+	local forcedNextMinigame
+
+	---
+	-- Forces the next minigame
+	-- @param table minigame minigames table
+	function minigames.ForceNextMinigame(minigame)
+		forcedNextMinigame = minigame
+	end
+
+	---
+	-- Returns the next forced minigame
+	-- @return table minigames table
+	function minigames.GetForcedNextMinigame()
+		return forcedNextMinigame
+	end
+
 	---
 	-- Selects a minigame based on the current available minigames
 	-- @return ?table minigame table
@@ -217,6 +233,12 @@ if SERVER then
 			if minigame:IsActive() then continue end -- don't include active minigames
 
 			if not GetConVar("ttt2_minigames_" .. minigame.name .. "_enabled"):GetBool() then continue end
+
+			if forcedNextMinigame and forcedNextMinigame.name == minigame.name then
+				forcedNextMinigame = nil
+
+				return minigame
+			end
 
 			local b = true
 			local r = GetConVar("ttt2_minigames_" .. minigame.name .. "_random"):GetInt()
@@ -265,6 +287,19 @@ end
 function minigames.GetByIndex(index)
 	for _, v in pairs(MGList) do
 		if v.name ~= BASE_ROLE_CLASS and v.index == index then
+			return v
+		end
+	end
+end
+
+---
+-- Get the minigame table by the minigame name
+-- @param string name minigame name
+-- @return table returns the minigame table.
+-- @realm shared
+function minigames.GetByName(name)
+	for _, v in pairs(MGList) do
+		if v.name ~= BASE_ROLE_CLASS and v.name == name then
 			return v
 		end
 	end
