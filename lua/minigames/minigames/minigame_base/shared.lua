@@ -2,10 +2,8 @@
 -- @author Alf21
 -- @module MINIGAME
 
-MINIGAME.printName = "Scripted MINIGAME" -- displayed @{MINIGAME} name (Shown on HUD), language supported
 MINIGAME.author = "" -- author
 MINIGAME.contact = "" -- contact to the author
-MINIGAME.description = "" -- some Instructions for this @{MINIGAME}
 
 local active = false
 
