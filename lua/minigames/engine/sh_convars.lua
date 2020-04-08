@@ -1,6 +1,8 @@
+local ttt2_minigames_show_popup = CreateConVar("ttt2_minigames_show_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+
 if SERVER then
-    local ttt2_minigames = CreateConVar("ttt2_minigames", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
-    local ttt2_minigames_autostart = CreateConVar("ttt2_minigames_autostart", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+    local ttt2_minigames = CreateConVar("ttt2_minigames", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+    local ttt2_minigames_autostart = CreateConVar("ttt2_minigames_autostart", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
     -- ConVar Replicating
     hook.Add("TTTUlxInitCustomCVar", "TTT2MGInitRWCVar", function(name)
