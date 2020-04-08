@@ -64,6 +64,7 @@ end
 -- @param table t minigame table
 -- @param string name minigame name
 -- @realm shared
+-- @internal
 function minigames.Register(t, name)
 	name = string.lower(name)
 
@@ -98,8 +99,8 @@ end
 
 ---
 -- All scripts have been loaded...
--- @local
 -- @realm shared
+-- @internal
 function minigames.OnLoaded()
 
 	--
@@ -128,6 +129,7 @@ end
 -- @param[opt] ?table retTbl this table will be modified and returned. If nil, a new table will be created.
 -- @return table returns the modified retTbl or the new minigame table
 -- @realm shared
+-- @internal
 function minigames.Get(name, retTbl)
 	local Stored = minigames.GetStored(name)
 	if not Stored then return end
@@ -170,7 +172,7 @@ function minigames.GetStored(name)
 end
 
 ---
--- Get a list (copy) of all registered minigames, that can be displayed (no abstract minigames).
+-- Get a list (copy) of all registered minigames, that can be displayed (no abstract minigames)
 -- @return table available minigames
 -- @realm shared
 function minigames.GetList()
@@ -186,7 +188,7 @@ function minigames.GetList()
 end
 
 ---
--- Get a list (copy) of all the registered minigames including abstract minigames.
+-- Get an indexed list of all the registered minigames including abstract minigames
 -- @return table all registered minigames
 -- @realm shared
 function minigames.GetRealList()
@@ -287,19 +289,6 @@ end
 function minigames.GetByIndex(index)
 	for _, v in pairs(MGList) do
 		if v.name ~= BASE_ROLE_CLASS and v.index == index then
-			return v
-		end
-	end
-end
-
----
--- Get the minigame table by the minigame name
--- @param string name minigame name
--- @return table returns the minigame table.
--- @realm shared
-function minigames.GetByName(name)
-	for _, v in pairs(MGList) do
-		if v.name ~= BASE_ROLE_CLASS and v.name == name then
 			return v
 		end
 	end

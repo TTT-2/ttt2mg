@@ -1,5 +1,3 @@
-local ttt2_minigames_show_popup = CreateConVar("ttt2_minigames_show_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
-
 if SERVER then
     local ttt2_minigames = CreateConVar("ttt2_minigames", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
     local ttt2_minigames_autostart = CreateConVar("ttt2_minigames_autostart", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
@@ -10,6 +8,8 @@ if SERVER then
         ULib.replicatedWritableCvar(ttt2_minigames_autostart:GetName(), "rep_" + ttt2_minigames_autostart:GetName(), ttt2_minigames_autostart:GetInt(), true, true, "xgui_gmsettings")
     end)
 else
+    CreateConVar("ttt2_minigames_show_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+
     hook.Add("TTTUlxModifyAddonSettings", "TTT2MGModifySettings", function(name)
         local pnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 

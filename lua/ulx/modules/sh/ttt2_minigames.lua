@@ -49,7 +49,7 @@ updateMinigames()
 function ulx.forceminigame(calling_ply, target_minigame)
     if not GamemodeCheck(calling_ply) or not target_minigame then return end
 
-    local mg = minigames.GetByName(target_minigame)
+    local mg = minigames.GetStored(target_minigame)
     if not mg then return end
 
     minigames.ForceNextMinigame(mg)
