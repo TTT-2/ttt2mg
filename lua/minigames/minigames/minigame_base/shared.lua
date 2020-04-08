@@ -10,19 +10,37 @@ MINIGAME.description = "" -- some Instructions for this @{MINIGAME}
 local active = false
 
 ---
+-- Activates the @{MINIGAME}
+-- @realm shared
+function MINIGAME:Activate()
+	self:OnActivation()
+
+	active = true
+end
+
+---
 -- Called if the @{MINIGAME} activates
 -- @hook
 -- @realm shared
-function MINIGAME:Activate()
-	active = true
+function MINIGAME:OnActivation()
+
+end
+
+---
+-- Deactivates the @{MINIGAME}
+-- @realm shared
+function MINIGAME:Deactivate()
+	self:OnDeactivation()
+
+	active = false
 end
 
 ---
 -- Called if the @{MINIGAME} deactivates
 -- @hook
 -- @realm shared
-function MINIGAME:Deactivate()
-	active = false
+function MINIGAME:OnDeactivation()
+
 end
 
 ---
