@@ -99,13 +99,11 @@ Here is an example how to add language support to your `Minigame`:
 
 ```lua
 MINIGAME.lang = {
-	lang = {
-		name = {
-			English = "Example Minigame"
-		},
-		desc = {
-			English = "Some interesting facts about or something similar."
-		}
+	name = {
+		English = "Example Minigame"
+	},
+	desc = {
+		English = "Some interesting facts about or something similar."
 	}
 }
 ```

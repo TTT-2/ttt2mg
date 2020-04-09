@@ -6,13 +6,11 @@ MINIGAME.author = "Alf21"
 MINIGAME.contact = "TTT2 Discord"
 
 MINIGAME.lang = {
-	lang = {
-		name = {
-			English = "Hardcore Minigame"
-		},
-		desc = {
-			English = "Try to win without some essential HUD elements."
-		}
+	name = {
+		English = "Hardcore Minigame"
+	},
+	desc = {
+		English = "Try to win without some essential HUD elements."
 	}
 }
 
