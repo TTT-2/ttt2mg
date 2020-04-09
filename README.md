@@ -54,12 +54,13 @@ Hook | Utilization
 `MINIGAME:OnActivation` | Called if the `Minigame` is activated
 `MINIGAME:OnDeactivation` | Called if the `Minigame` is deactivated
 
-#### Functions (**`shared`**)
-Function | Utilization
---- | ---
-`MINIGAME:Activate` | Activates the `Minigame`. By default, this is done autimatically (internally)
-`MINIGAME:Deactivate` | Deactivates the `Minigame`. By default, this is done autimatically (internally)
-`MINIGAME:IsActive` | Returns whether the `Minigame` is active
+#### Functions
+Function | Utilization | Realm
+--- | --- | ---
+`MINIGAME:Activate` | Activates the `Minigame`. By default, this is done autimatically (internally) | `shared`
+`MINIGAME:Deactivate` | Deactivates the `Minigame`. By default, this is done autimatically (internally) | `shared`
+`MINIGAME:IsActive` | Returns whether the `Minigame` is active | `shared`
+`MINIGAME:IsSelectable` | Returns whether the `Minigame` is selectable (and take place in the `minigame`s selection) | `server`
 
 ### `minigames` module
 #### Functions

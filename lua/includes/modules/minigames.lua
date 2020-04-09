@@ -232,9 +232,12 @@ if SERVER then
 		for i = 1, #mgs do
 			local minigame = mgs[i]
 
-			if minigame:IsActive() then continue end -- don't include active minigames
-
-			if not GetConVar("ttt2_minigames_" .. minigame.name .. "_enabled"):GetBool() then continue end
+			-- don't include active, disabled or unselectable minigames
+			if minigame:IsActive() 
+			or not GetConVar("ttt2_minigames_" .. minigame.name .. "_enabled"):GetBool()
+			or not minigame:IsSelectable() then 
+				continue 
+			end
 
 			if forcedNextMinigame and forcedNextMinigame.name == minigame.name then
 				forcedNextMinigame = nil
