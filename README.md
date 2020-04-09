@@ -45,6 +45,8 @@ function MINIGAME:OnDeactivation()
 end
 ```
 
+Here is an easy example of a `Minigame`: [Hardcore Minigame](https://github.com/TTT-2/ttt2mg/tree/master/lua/minigames/minigames)
+
 ## How to customize and interact with this TTT2 gamemode?
 
 ### MINIGAME
@@ -91,3 +93,19 @@ Hook | Utilization
 `TTT2MGPreDeactivate`| Called right before the `Minigame` deactivates
 `TTT2MGDeactivate` | Called if the `Minigame` deactivates
 `TTT2MGPostDeactivate` | Called after the `Minigame` was deactivated
+
+### Multilanguage support
+Here is an example how to add language support to your `Minigame`:
+
+```lua
+MINIGAME.lang = {
+	lang = {
+		name = {
+			English = "Example Minigame"
+		},
+		desc = {
+			English = "Some interesting facts about or something similar."
+		}
+	}
+}
+```
