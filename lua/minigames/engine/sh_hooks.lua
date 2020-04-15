@@ -37,3 +37,7 @@ else
 		end
 	end)
 end
+
+hook.Add("TTT2Initialize", "TTT2MGInitialize", function()
+	minigames.OnLoaded()
+end)

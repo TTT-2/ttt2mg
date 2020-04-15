@@ -4,8 +4,8 @@ if SERVER then
 
     -- ConVar Replicating
     hook.Add("TTTUlxInitCustomCVar", "TTT2MGInitRWCVar", function(name)
-        ULib.replicatedWritableCvar(ttt2_minigames:GetName(), "rep_" + ttt2_minigames:GetName(), ttt2_minigames:GetBool(), true, true, "xgui_gmsettings")
-        ULib.replicatedWritableCvar(ttt2_minigames_autostart:GetName(), "rep_" + ttt2_minigames_autostart:GetName(), ttt2_minigames_autostart:GetInt(), true, true, "xgui_gmsettings")
+        ULib.replicatedWritableCvar(ttt2_minigames:GetName(), "rep_" .. ttt2_minigames:GetName(), ttt2_minigames:GetBool(), true, true, "xgui_gmsettings")
+        ULib.replicatedWritableCvar(ttt2_minigames_autostart:GetName(), "rep_" .. ttt2_minigames_autostart:GetName(), ttt2_minigames_autostart:GetInt(), true, true, "xgui_gmsettings")
     end)
 else
     CreateConVar("ttt2_minigames_show_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
@@ -14,13 +14,13 @@ else
         local pnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
         local clp = vgui.Create("DCollapsibleCategory", pnl)
-        clp:SetSize(390, 110)
+        clp:SetSize(390, 150)
         clp:SetExpanded(1)
         clp:SetLabel("Basic Settings")
 
         local lst = vgui.Create("DPanelList", clp)
         lst:SetPos(5, 25)
-        lst:SetSize(390, 110)
+        lst:SetSize(390, 150)
         lst:SetSpacing(5)
 
         lst:AddItem(xlib.makelabel{

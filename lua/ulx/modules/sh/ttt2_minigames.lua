@@ -13,7 +13,7 @@ local CATEGORY_NAME = "TTT2 Minigames"
 local gamemode_error = "The current gamemode is not trouble in terrorest town"
 
 function GamemodeCheck(calling_ply)
-    if GetConVar("gamemode"):GetString() ~= "terrortown" then
+    if engine.ActiveGamemode() ~= "terrortown" then
         ULib.tsayError(calling_ply, gamemode_error, true)
 
         return true

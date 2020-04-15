@@ -13,7 +13,6 @@ if SERVER then
 	AddCSLuaFile()
 end
 
-local BASE_MINIGAME_CLASS = "minigame_base"
 local MGList = MGList or {}
 
 ---
@@ -69,10 +68,10 @@ function minigames.Register(t, name)
 	name = string.lower(name)
 
 	t.ClassName = name
-	t.id = name
+	t.name = name
 	t.isAbstract = t.isAbstract or false
 
-	t.index = table.Count(MGList)
+	t.id = table.Count(MGList)
 
 	MGList[name] = t
 end
@@ -84,17 +83,17 @@ end
 -- @realm shared
 -- @local
 local function SetupData(minigame)
-	print("[TTT2][MINIGAMES] Adding '" .. minigameData.name .. "' minigame...")
+	print("[TTT2][MINIGAMES] Adding '" .. minigame.name .. "' minigame...")
 
 	if not SERVER then return end
 
 	---
 	-- @name ttt2_minigames_[MINIGAME]_enabled
-	CreateConVar("ttt2_minigames_" .. minigameData.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+	CreateConVar("ttt2_minigames_" .. minigame.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
 
 	---
 	-- @name ttt2_minigames_[MINIGAME]_random
-	CreateConVar("ttt2_minigames_" .. minigameData.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+	CreateConVar("ttt2_minigames_" .. minigame.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
 end
 
 ---
@@ -117,7 +116,7 @@ function minigames.OnLoaded()
 
 	-- Setup data (eg. convars for all minigames)
 	for _, v in pairs(MGList) do
-		if v.name ~= BASE_MINIGAME_CLASS then
+		if not v.isAbstract then
 			SetupData(v)
 		end
 	end
@@ -145,7 +144,7 @@ function minigames.Get(name, retTbl)
 		end
 	end
 
-	retval.Base = retval.Base or BASE_MINIGAME_CLASS
+	retval.Base = retval.Base or "minigame_base"
 
 	-- If we're not derived from ourselves (a base minigame element)
 	-- then derive from our 'Base' minigame element.
@@ -233,10 +232,10 @@ if SERVER then
 			local minigame = mgs[i]
 
 			-- don't include active, disabled or unselectable minigames
-			if minigame:IsActive() 
+			if minigame:IsActive()
 			or not GetConVar("ttt2_minigames_" .. minigame.name .. "_enabled"):GetBool()
-			or not minigame:IsSelectable() then 
-				continue 
+			or not minigame:IsSelectable() then
+				continue
 			end
 
 			if forcedNextMinigame and forcedNextMinigame.name == minigame.name then
@@ -271,7 +270,7 @@ end
 -- @realm shared
 function minigames.GetActiveList()
 	local activeMinigames = {}
-	local mgs = GetList()
+	local mgs = minigames.GetList()
 
 	for i = 1, #mgs do
 		local mg = mgs[i]
@@ -286,12 +285,12 @@ end
 
 ---
 -- Get the minigame table by the minigame id
--- @param number index minigame id
+-- @param number id minigame id
 -- @return table returns the minigame table.
 -- @realm shared
-function minigames.GetByIndex(index)
+function minigames.GetById(id)
 	for _, v in pairs(MGList) do
-		if v.name ~= BASE_ROLE_CLASS and v.index == index then
+		if v.name ~= BASE_ROLE_CLASS and v.id == id then
 			return v
 		end
 	end

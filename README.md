@@ -73,7 +73,7 @@ Function | Utilization | Realm
 `minigames.GetList` | Get a list (copy) of all registered `Minigame`s, that can be displayed (no abstract `Minigame`s) | `shared`
 `minigames.GetRealList`| Get an indexed list of all the registered `Minigame`s including abstract `Minigame`s | `shared`
 `minigames.GetActiveList`| Returns a list of active `Minigame`s | `shared`
-`minigames.GetByIndex` | Get the `Minigame` table by the `Minigame` id | `shared`
+`minigames.GetById` | Get the `Minigame` table by the `Minigame` id | `shared`
 `minigames.ForceNextMinigame` | Forces the next `Minigame` | `server`
 `minigames.GetForcedNextMinigame`| Returns the next forced `Minigame` | `server`
 `minigames.Select`| Selects a `Minigame` based on the current available `Minigame`s | `server`

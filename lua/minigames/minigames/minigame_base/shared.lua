@@ -5,6 +5,8 @@
 MINIGAME.author = "" -- author
 MINIGAME.contact = "" -- contact to the author
 
+MINIGAME.isAbstract = true -- abstract MINIGAME you can derive from 
+
 local active = false
 
 ---

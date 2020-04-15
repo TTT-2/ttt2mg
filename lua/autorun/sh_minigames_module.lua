@@ -1,17 +1,10 @@
-if engine.ActiveGamemode() ~= "terrortown" then return end -- just run it foe the terrortown gamemode
-
--- include minigames base files
-if SERVER then
-	AddCSLuaFile("minigames/engine/sh_init.lua")
-end
-
-include("minigames/engine/sh_init.lua")
+if engine.ActiveGamemode() ~= "terrortown" then return end -- just run it for the terrortown gamemode
 
 -- store the MG var if already exists
 local oldMINIGAME = MINIGAME
 
 -- include modules
-require("minigames")
+include("includes/modules/minigames.lua")
 
 -- load minigames
 local minigamesPre = "minigames/minigames/"
@@ -67,3 +60,10 @@ for i = 1, #minigamesFolders do
 end
 
 MINIGAME = oldMINIGAME
+
+-- include minigames base files
+if SERVER then
+	AddCSLuaFile("minigames/engine/sh_init.lua")
+end
+
+include("minigames/engine/sh_init.lua")
