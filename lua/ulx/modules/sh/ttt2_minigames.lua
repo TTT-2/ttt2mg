@@ -12,14 +12,14 @@
 local CATEGORY_NAME = "TTT2 Minigames"
 local gamemode_error = "The current gamemode is not trouble in terrorest town"
 
-function GamemodeCheck(calling_ply)
+local function CheckForTerrortown(calling_ply)
     if engine.ActiveGamemode() ~= "terrortown" then
         ULib.tsayError(calling_ply, gamemode_error, true)
 
-        return true
-    else
         return false
     end
+
+    return true
 end
 
 -- update the minigames list (autocomplete)
@@ -47,14 +47,18 @@ updateMinigames()
 -- @param Player calling_ply The player who used the command
 -- @param string target_minigame The specific minigame id
 function ulx.forceminigame(calling_ply, target_minigame)
-    if not GamemodeCheck(calling_ply) or not target_minigame then return end
+    if not CheckForTerrortown(calling_ply) then return end
 
     local mg = minigames.GetStored(target_minigame)
-    if not mg then return end
+    if not mg then
+        ulx.fancyLogAdmin(calling_ply, "The selected minigame '#s' doesn't exist", target_minigame)
+
+        return
+    end
 
     minigames.ForceNextMinigame(mg)
 
-    ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced minigame '#S'", calling_ply, target_minigame)
+    ulx.fancyLogAdmin(calling_ply, "#A forced minigame '#s'", target_minigame)
 end
 
 local forceminigame = ulx.command(CATEGORY_NAME, "ulx forceminigame", ulx.forceminigame, "!forceminigame")

@@ -5,22 +5,21 @@ end
 MINIGAME.author = "Alf21"
 MINIGAME.contact = "TTT2 Discord"
 
-MINIGAME.lang = {
-	name = {
-		English = "Hardcore Minigame"
-	},
-	desc = {
-		English = "Try to win without some essential HUD elements."
-	}
-}
-
 if CLIENT then
+	MINIGAME.lang = {
+		name = {
+			English = "Hardcore Minigame"
+		},
+		desc = {
+			English = "Try to win without some essential HUD elements."
+		}
+	}
+
 	local ignoreHUDElems = {
 		TTTTargetID = true,
 		tttdrowning = true,
 		tttminiscoreboard = true,
-		tttsidebar = true,
-		ttttarget = true
+		tttsidebar = true
 	}
 
 	function MINIGAME:OnActivation()
