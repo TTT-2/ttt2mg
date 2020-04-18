@@ -17,23 +17,78 @@ if CLIENT then
 else
 	local modifiedPlys = {}
 	local HEADBONE_SCALE = 1
-	local ARMBONES_SCALE = 1
+	local TREX = 0
 
 	local ttt2_minigames_bubblehead_headscale = CreateConVar("ttt2_minigames_bubblehead_headscale", "1.5", {FCVAR_ARCHIVE}, "Set the headbone scale")
-	local ttt2_minigames_bubblehead_armscale = CreateConVar("ttt2_minigames_bubblehead_armscale", "0.15", {FCVAR_ARCHIVE}, "Set the armbones scale")
+	local ttt2_minigames_bubblehead_trex = CreateConVar("ttt2_minigames_bubblehead_trex", "1", {FCVAR_ARCHIVE}, "Toggle T-Rex arms")
 
 	local function ScaleBone(ply, boneName, scaleValue)
 
 		-- get the head bone
-		local headboneId = ply:LookupBone(boneName)
-		if headboneId == nil then
+		local boneId = ply:LookupBone(boneName)
+		if boneId == nil then
 			return false
 		end
 
 		-- modify the headbone scaling
-		ply:ManipulateBoneScale(headboneId, isvector(scaleValue) and scaleValue or Vector(scaleValue, scaleValue, scaleValue)) -- scale up/down by scaleValue
+		ply:ManipulateBoneScale(boneId, isvector(scaleValue) and scaleValue or Vector(scaleValue, scaleValue, scaleValue)) -- scale up/down by scaleValue
 
 		return true
+	end
+
+	local function PositionBone(ply, boneName, position)
+
+		-- get the head bone
+		local boneId = ply:LookupBone(boneName)
+		if boneId == nil then
+			return false
+		end
+
+		-- modify the headbone scaling
+		ply:ManipulateBonePosition(boneId, isvector(position) and position or Vector(position, position, position))
+
+		return true
+	end
+
+	local trex_scales = {
+		["ValveBiped.Bip01_L_Hand"] = 0.4,
+		["ValveBiped.Bip01_L_Forearm"] = 0.4,
+		["ValveBiped.Bip01_L_Clavicle"] = 0.4,
+		["ValveBiped.Bip01_L_Upperarm"] = 0.4,
+
+		["ValveBiped.Bip01_R_Hand"] = 0.4,
+		["ValveBiped.Bip01_R_Forearm"] = 0.4,
+		["ValveBiped.Bip01_R_Clavicle"] = 0.4,
+		["ValveBiped.Bip01_R_Upperarm"] = 0.4,
+	}
+
+	local trex_positions = {
+		["ValveBiped.Bip01_L_Hand"] = Vector(-7, -0.5, 1),
+		["ValveBiped.Bip01_L_Forearm"] = Vector(-8, 0, 1),
+		["ValveBiped.Bip01_L_Upperarm"] = Vector(-2, 2, 1),
+
+		["ValveBiped.Bip01_R_Hand"] = Vector(-7, -0.5, 1),
+		["ValveBiped.Bip01_R_Forearm"] = Vector(-8, 0, 1),
+		["ValveBiped.Bip01_R_Upperarm"] = Vector(-2, 2, 1),
+	}
+
+	local function TransformPlayer(ply)
+		-- scale headbone matrix up
+		if table.HasValue(modifiedPlys, ply) or not ScaleBone(ply, "ValveBiped.Bip01_Head1", HEADBONE_SCALE) then return end
+
+		-- scale arms
+		if TREX then
+			for k, v in pairs(trex_scales) do
+				ScaleBone(ply, k, v)
+			end
+
+			for k, v in pairs(trex_positions) do
+				PositionBone(ply, k, v)
+			end
+		end
+
+		-- mark player as modified player
+		modifiedPlys[#modifiedPlys + 1] = ply
 	end
 
 	function MINIGAME:OnActivation()
@@ -41,32 +96,14 @@ else
 
 		-- update the HEADBONE_SCALE just on activation. Otherwise, realtime changes can lead to weird results
 		HEADBONE_SCALE = ttt2_minigames_bubblehead_headscale:GetFloat()
-		ARMBONES_SCALE = ttt2_minigames_bubblehead_armscale:GetFloat()
+		TREX = ttt2_minigames_bubblehead_trex:GetBool()
 
 		for i = 1, #plys do
 			local ply = plys[i]
 
 			-- just do this for alive terrorist that are not already have scaled heads
-			if ply:Alive() and ply:IsTerror() and not table.HasValue(modifiedPlys, ply) then
-
-				-- scale headbone matrix up
-				if not ScaleBone(ply, "ValveBiped.Bip01_Head1", HEADBONE_SCALE) then continue end
-
-				-- scale arms
-				ScaleBone(ply, "ValveBiped.Bip01_L_Hand", ARMBONES_SCALE)
-				ScaleBone(ply, "ValveBiped.Bip01_R_Hand", ARMBONES_SCALE)
-
-				ScaleBone(ply, "ValveBiped.Bip01_L_Forearm", Vector(ARMBONES_SCALE * 0.1, ARMBONES_SCALE, ARMBONES_SCALE))
-				ScaleBone(ply, "ValveBiped.Bip01_R_Forearm", Vector(ARMBONES_SCALE * 0.1, ARMBONES_SCALE, ARMBONES_SCALE))
-
-				ScaleBone(ply, "ValveBiped.Bip01_L_Elbow", ARMBONES_SCALE)
-				ScaleBone(ply, "ValveBiped.Bip01_R_Elbow", ARMBONES_SCALE)
-
-				ScaleBone(ply, "ValveBiped.Bip01_L_Shoulder", ARMBONES_SCALE)
-				ScaleBone(ply, "ValveBiped.Bip01_R_Shoulder", ARMBONES_SCALE)
-
-				-- mark player as modified player
-				modifiedPlys[#modifiedPlys + 1] = ply
+			if ply:Alive() and ply:IsTerror() then
+				TransformPlayer(ply)
 			end
 		end
 
@@ -75,10 +112,15 @@ else
 			if not target:IsPlayer() or not dmginfo:IsBulletDamage() then return end
 
 			if target:LastHitGroup() ~= HITGROUP_HEAD then
-				print(target:Nick() .. " - " .. target:LastHitGroup())
-
 				return true
 			end
+		end)
+
+		-- if a player respawns, the transformation should be done again
+		hook.Add("PlayerSetModel", "TTT2MGBubblehead", function(ply)
+			if not ply:Alive() then return end
+
+			TransformPlayer(ply)
 		end)
 	end
 
@@ -86,6 +128,9 @@ else
 
 		-- remove damage blocking
 		hook.Remove("EntityTakeDamage", "TTT2MGBubblehead")
+
+		-- remove spawn transformation
+		hook.Remove("PlayerSetModel", "TTT2MGBubblehead")
 
 		-- undo the headbone matrix scale
 		for i = 1, #modifiedPlys do
@@ -95,17 +140,18 @@ else
 			if not IsValid(ply) then continue end
 
 			-- scale headbone matrix down
-			ScaleBone(ply, "ValveBiped.Bip01_Head1", -HEADBONE_SCALE)
+			ScaleBone(ply, "ValveBiped.Bip01_Head1", 1)
 
 			-- scale arms
-			ScaleBone(ply, "ValveBiped.Bip01_L_Hand", -ARMBONES_SCALE)
-			ScaleBone(ply, "ValveBiped.Bip01_R_Hand", -ARMBONES_SCALE)
+			if TREX then
+				for k, v in pairs(trex_scales) do
+					ScaleBone(ply, k, 1)
+				end
 
-			ScaleBone(ply, "ValveBiped.Bip01_L_Forearm", -Vector(ARMBONES_SCALE * 0.1, ARMBONES_SCALE, ARMBONES_SCALE))
-			ScaleBone(ply, "ValveBiped.Bip01_R_Forearm", -Vector(ARMBONES_SCALE * 0.1, ARMBONES_SCALE, ARMBONES_SCALE))
-
-			ScaleBone(ply, "ValveBiped.Bip01_L_Elbow", -ARMBONES_SCALE)
-			ScaleBone(ply, "ValveBiped.Bip01_R_Elbow", -ARMBONES_SCALE)
+				for k, v in pairs(trex_positions) do
+					PositionBone(ply, k, 1)
+				end
+			end
 		end
 
 		modifiedPlys = {}
