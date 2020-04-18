@@ -5,6 +5,20 @@ end
 MINIGAME.author = "Alf21"
 MINIGAME.contact = "TTT2 Discord"
 
+MINIGAME.conVarData = {
+	ttt2_minigames_bubblehead_headscale = {
+		slider = true,
+		min = 1,
+		max = 2,
+		decimal = 2,
+		desc = "Set the headbone scale (Def. 1.5)"
+	},
+	ttt2_minigames_bubblehead_trex = {
+		checkbox = true,
+		desc = "Toggle T-Rex arms (Def. 1)"
+	}
+}
+
 if CLIENT then
 	MINIGAME.lang = {
 		name = {
