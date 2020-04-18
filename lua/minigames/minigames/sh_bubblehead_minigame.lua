@@ -50,6 +50,20 @@ else
 		return true
 	end
 
+	local function JiggleBone(ply, boneName, value)
+
+		-- get the head bone
+		local boneId = ply:LookupBone(boneName)
+		if boneId == nil then
+			return false
+		end
+
+		-- modify the headbone scaling
+		ply:ManipulateBoneJiggle(boneId, isbool(value) and (value and 1 or 0) or value)
+
+		return true
+	end
+
 	local trex_scales = {
 		["ValveBiped.Bip01_L_Hand"] = 0.4,
 		["ValveBiped.Bip01_L_Forearm"] = 0.4,
@@ -75,6 +89,9 @@ else
 	local function TransformPlayer(ply)
 		-- scale headbone matrix up
 		if table.HasValue(modifiedPlys, ply) or not ScaleBone(ply, "ValveBiped.Bip01_Head1", HEADBONE_SCALE) then return end
+
+		-- let's jiggle the head, baby
+		JiggleBone(ply, "ValveBiped.Bip01_Head1", true)
 
 		-- scale arms
 		if TREX then
@@ -141,6 +158,9 @@ else
 
 			-- scale headbone matrix down
 			ScaleBone(ply, "ValveBiped.Bip01_Head1", 1)
+
+			-- it's enough, please stop it, NOW
+			JiggleBone(ply, "ValveBiped.Bip01_Head1", false)
 
 			-- scale arms
 			if TREX then
