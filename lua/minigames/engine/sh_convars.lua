@@ -28,11 +28,13 @@ if SERVER then
 
 	local ttt2_minigames = CreateConVar("ttt2_minigames", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	local ttt2_minigames_autostart_random = CreateConVar("ttt2_minigames_autostart_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+	local ttt2_minigames_autostart_rounds = CreateConVar("ttt2_minigames_autostart_rounds", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 	-- ConVar Replicating
 	hook.Add("TTTUlxInitCustomCVar", "TTT2MGInitRWCVar", function()
 		ULib.replicatedWritableCvar(ttt2_minigames:GetName(), "rep_" .. ttt2_minigames:GetName(), ttt2_minigames:GetBool(), true, true, "xgui_gmsettings")
 		ULib.replicatedWritableCvar(ttt2_minigames_autostart_random:GetName(), "rep_" .. ttt2_minigames_autostart_random:GetName(), ttt2_minigames_autostart_random:GetFloat(), true, true, "xgui_gmsettings")
+		ULib.replicatedWritableCvar(ttt2_minigames_autostart_rounds:GetName(), "rep_" .. ttt2_minigames_autostart_rounds:GetName(), ttt2_minigames_autostart_rounds:GetInt(), true, true, "xgui_gmsettings")
 
 		---- minigames dynamical ConVars
 		local mgs = minigames.GetList()
@@ -93,7 +95,34 @@ else
 			y = 0,
 			w = 415,
 			wordwrap = true,
-			label = "Setting TTT2 Minigames autostart to 100 (%) will lead to the result that a random minigame is activated on every round start.",
+			label = "Setting TTT2 Minigames autostart rounds to 2 will lead to the result that a random minigame is activated on every second round. Setting it to 0 will activate the autostart randomness and vice-versa.",
+			parent = lst
+		})
+
+		lst:AddItem(xlib.makeslider{
+			label = "TTT2 Minigames autostart rounds? (ttt2_minigames_autostart_rounds) (Def. 0)",
+			min = 0,
+			max = 100,
+			decimal = 0,
+			repconvar = "ttt2_minigames_autostart_rounds",
+			parent = lst
+		})
+
+		lst:AddItem(xlib.makelabel{ -- empty line
+			x = 0,
+			y = 0,
+			w = 415,
+			wordwrap = true,
+			label = "",
+			parent = lst
+		})
+
+		lst:AddItem(xlib.makelabel{
+			x = 0,
+			y = 0,
+			w = 415,
+			wordwrap = true,
+			label = "Setting TTT2 Minigames autostart to 100 (%) will lead to the result that a random minigame is activated on every round start. Deactivated if ttt2_minigames_autostart_rounds is not 0!",
 			parent = lst
 		})
 

@@ -269,6 +269,12 @@ if SERVER then
 	-- @realm server
 	-- @internal
 	function minigames.CheckAutostart()
+		local autostartRounds = GetConVar("ttt2_minigames_autostart_rounds"):GetInt()
+
+		if autostartRounds > 0 then
+			return GAMEMODE.roundsCount % autostartRounds == 0
+		end
+
 		return math.random(100) <= GetConVar("ttt2_minigames_autostart_random"):GetFloat()
 	end
 end
