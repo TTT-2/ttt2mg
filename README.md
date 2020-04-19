@@ -107,3 +107,22 @@ MINIGAME.lang = {
 	}
 }
 ```
+
+### Dynamical ULX ConVar support
+If you wanna add ConVars with ULX support easily to your `Minigame`, use this codesnippet:
+
+```lua
+MINIGAME.conVarData = {
+	ttt2_minigames_minigamename_uniquename = { -- the ConVar name. Should match the serverside ConVar name
+		slider = true, -- if it's a number, you should use a slider
+		min = 1,
+		max = 2,
+		decimal = 2, -- it's a float
+		desc = "Set the ... (Def. 1.5)"
+	},
+	ttt2_minigames_minigamename_bool = {
+		checkbox = true, -- if it's a bool, you should use a checkbox
+		desc = "Toggle ... (Def. 1)"
+	}
+}
+```
