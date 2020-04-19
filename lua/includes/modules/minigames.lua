@@ -262,6 +262,15 @@ if SERVER then
 
 		return availableMinigames[math.random(#availableMinigames)]
 	end
+
+	---
+	-- Returns whether a random minigame should start
+	-- @return bool
+	-- @realm server
+	-- @internal
+	function minigames.CheckAutostart()
+		return math.random(100) <= GetConVar("ttt2_minigames_autostart_random"):GetFloat()
+	end
 end
 
 ---

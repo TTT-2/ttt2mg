@@ -27,12 +27,12 @@ if SERVER then
 	end
 
 	local ttt2_minigames = CreateConVar("ttt2_minigames", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-	local ttt2_minigames_autostart = CreateConVar("ttt2_minigames_autostart", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+	local ttt2_minigames_autostart_random = CreateConVar("ttt2_minigames_autostart_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 	-- ConVar Replicating
 	hook.Add("TTTUlxInitCustomCVar", "TTT2MGInitRWCVar", function()
 		ULib.replicatedWritableCvar(ttt2_minigames:GetName(), "rep_" .. ttt2_minigames:GetName(), ttt2_minigames:GetBool(), true, true, "xgui_gmsettings")
-		ULib.replicatedWritableCvar(ttt2_minigames_autostart:GetName(), "rep_" .. ttt2_minigames_autostart:GetName(), ttt2_minigames_autostart:GetInt(), true, true, "xgui_gmsettings")
+		ULib.replicatedWritableCvar(ttt2_minigames_autostart_random:GetName(), "rep_" .. ttt2_minigames_autostart_random:GetName(), ttt2_minigames_autostart_random:GetFloat(), true, true, "xgui_gmsettings")
 
 		---- minigames dynamical ConVars
 		local mgs = minigames.GetList()
@@ -93,13 +93,16 @@ else
 			y = 0,
 			w = 415,
 			wordwrap = true,
-			label = "Enabling TTT2 Minigames autostart will lead to the result that a random minigame is activated on every round start.",
+			label = "Setting TTT2 Minigames autostart to 100 (%) will lead to the result that a random minigame is activated on every round start.",
 			parent = lst
 		})
 
-		lst:AddItem(xlib.makecheckbox{
-			label = "Enable TTT2 Minigames autostart? (ttt2_minigames_autostart) (Def. 1)",
-			repconvar = "rep_ttt2_minigames_autostart",
+		lst:AddItem(xlib.makeslider{
+			label = "TTT2 Minigames autostart randomness? (ttt2_minigames_autostart_random) (Def. 100)",
+			min = 0,
+			max = 100,
+			decimal = 0,
+			repconvar = "ttt2_minigames_autostart_random",
 			parent = lst
 		})
 

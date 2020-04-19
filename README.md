@@ -11,7 +11,7 @@ If you don't wanna use TTT2 ULX, you can modify these ConVars on your own:
 ConVar | Utilization | Realm
 --- | --- | ---
 `ttt2_minigames` | Toggle whether the `Minigame`s gamemode is enabled | `server`
-`ttt2_minigames_autostart` | Toggle whether a random `Minigame` should start on every round begin | `server`
+`ttt2_minigames_autostart_random` | Set the randomness so that it switches (randomly) whether a `Minigame` should start with each round | `server`
 `ttt2_minigames_show_popup` | Toggle whether the `Minigame`'s name and the description should be displayed on start | `client`
 
 # Developer section
