@@ -244,16 +244,7 @@ if SERVER then
 				return minigame
 			end
 
-			local b = true
-			local r = GetConVar("ttt2_minigames_" .. minigame.name .. "_random"):GetInt()
-
-			if r > 0 and r < 100 then
-				b = math.random(100) <= r
-			elseif r <= 0 then
-				b = false
-			end
-
-			if b then
+			if math.random(100) <= GetConVar("ttt2_minigames_" .. minigame.name .. "_random"):GetInt() then
 				availableMinigames[#availableMinigames + 1] = minigame
 			end
 		end
