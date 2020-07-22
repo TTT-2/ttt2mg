@@ -89,11 +89,15 @@ local function SetupData(minigame)
 
 	---
 	-- @name ttt2_minigames_[MINIGAME]_enabled
-	CreateConVar("ttt2_minigames_" .. minigame.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+	if not ConVarExists("ttt2_minigames_" .. minigame.name .. "_enabled") then
+		CreateConVar("ttt2_minigames_" .. minigame.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+	end
 
 	---
 	-- @name ttt2_minigames_[MINIGAME]_random
-	CreateConVar("ttt2_minigames_" .. minigame.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+	if not ConVarExists("ttt2_minigames_" .. minigame.name .. "_random") then
+		CreateConVar("ttt2_minigames_" .. minigame.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+	end
 end
 
 ---
