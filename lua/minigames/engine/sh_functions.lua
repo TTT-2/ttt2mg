@@ -16,7 +16,8 @@ function ActivateMinigame(minigame)
 				color = COLOR_ORANGE
 			},
 			minigame.lang.desc and LANG.TryTranslation("ttt2_minigames_" .. minigame.name .. "_desc") or nil,
-			12
+			12,
+			true
 		)
 	end
 
