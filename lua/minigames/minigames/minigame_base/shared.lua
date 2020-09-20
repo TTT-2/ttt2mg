@@ -51,6 +51,7 @@ end
 
 ---
 -- Returns whether the current @{MINIGAME} is active
+-- @return bool
 -- @realm shared
 function MINIGAME:IsActive()
 	return self.m_bActive
