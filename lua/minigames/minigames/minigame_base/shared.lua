@@ -7,7 +7,27 @@ MINIGAME.contact = "" -- contact to the author
 
 MINIGAME.isAbstract = true -- abstract MINIGAME you can derive from
 
-MINIGAME.m_bActive = false
+---
+-- Called before the @{MINIGAME}'s data is loaded
+-- @realm shared
+function MINIGAME:PreInitialize()
+
+end
+
+---
+-- Called as soon as the default data has been loaded and the @{MINIGAME} has be pre-initialized
+-- @realm shared
+function MINIGAME:SetupData()
+
+end
+
+---
+-- Initializes the @{MINIGAME}
+-- @note Is automatically called as soon as the minigame data has been loaded
+-- @realm shared
+function MINIGAME:Initialize()
+
+end
 
 ---
 -- Activates the @{MINIGAME}
@@ -37,7 +57,7 @@ end
 function MINIGAME:Deactivate()
 	self:OnDeactivation()
 
-	self.m_bActive = false
+	self.m_bActive = nil
 end
 
 ---
@@ -54,7 +74,7 @@ end
 -- @return bool
 -- @realm shared
 function MINIGAME:IsActive()
-	return self.m_bActive
+	return self.m_bActive == true
 end
 
 if SERVER then
@@ -77,8 +97,7 @@ else
 				color = COLOR_ORANGE
 			},
 			self.lang.desc and LANG.TryTranslation("ttt2_minigames_" .. self.name .. "_desc") or nil,
-			12,
-			true
+			12
 		)
 	end
 end
