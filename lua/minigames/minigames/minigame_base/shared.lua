@@ -23,7 +23,7 @@ end
 
 ---
 -- Initializes the @{MINIGAME}
--- @note Is automatically called as soon as the minigame data has been loaded
+-- @note Is automatically called as soon as the @{MINIGAME} data has been loaded
 -- @realm shared
 function MINIGAME:Initialize()
 

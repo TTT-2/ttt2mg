@@ -54,6 +54,9 @@ Here is an easy example of a `Minigame`: [Hardcore Minigame](https://github.com/
 #### Hooks (**`shared`**)
 Hook | Utilization
 --- | ---
+`MINIGAME:PreInitialize()` | Called before the `Minigame`'s data is loaded
+`MINIGAME:SetupData()` | Called as soon as the default data has been loaded and the `Minigame` has be pre-initialized
+`MINIGAME:Initialize()` | Is automatically called as soon as the `Minigame` data has been loaded
 `MINIGAME:OnActivation()` | Called if the `Minigame` is activated
 `MINIGAME:OnDeactivation()` | Called if the `Minigame` is deactivated
 
