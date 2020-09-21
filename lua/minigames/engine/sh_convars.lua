@@ -1,3 +1,26 @@
+local function GetConVarData(minigame)
+	local cvd = minigame.conVarData or {}
+
+	local name = "ttt2_minigames_" .. minigame.name .. "_enabled"
+
+	cvd[name] = cvd[name] or {
+		checkbox = true,
+		desc = "Enabled? (def. 1)"
+	}
+
+	name = "ttt2_minigames_" .. minigame.name .. "_random"
+
+	cvd[name] = cvd[name] or {
+		slider = true,
+		min = 0,
+		max = 100,
+		decimal = 0,
+		desc = "Random Chance: (def. 100)"
+	}
+
+	return cvd
+end
+
 if SERVER then
 	local function AutoReplicateConVar(name, data)
 		local cv = GetConVar(name)
@@ -31,7 +54,7 @@ if SERVER then
 	local ttt2_minigames_autostart_rounds = CreateConVar("ttt2_minigames_autostart_rounds", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 	-- ConVar Replicating
-	hook.Add("TTTUlxInitCustomCVar", "TTT2MGInitRWCVar", function()
+	hook.Add("TTT2MinigamesLoaded", "TTT2MGInitRWCVar", function()
 		ULib.replicatedWritableCvar(ttt2_minigames:GetName(), "rep_" .. ttt2_minigames:GetName(), ttt2_minigames:GetBool(), true, true, "xgui_gmsettings")
 		ULib.replicatedWritableCvar(ttt2_minigames_autostart_random:GetName(), "rep_" .. ttt2_minigames_autostart_random:GetName(), ttt2_minigames_autostart_random:GetFloat(), true, true, "xgui_gmsettings")
 		ULib.replicatedWritableCvar(ttt2_minigames_autostart_rounds:GetName(), "rep_" .. ttt2_minigames_autostart_rounds:GetName(), ttt2_minigames_autostart_rounds:GetInt(), true, true, "xgui_gmsettings")
@@ -41,9 +64,7 @@ if SERVER then
 
 		for i = 1, #mgs do
 			local mg = mgs[i]
-			local cvd = mg.conVarData
-
-			if not istable(cvd) or table.Count(cvd) < 1 then continue end
+			local cvd = GetConVarData(mg)
 
 			for name, data in pairs(cvd) do
 				AutoReplicateConVar(name, data)
@@ -57,13 +78,13 @@ else
 		local pnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
 
 		local clp = vgui.Create("DCollapsibleCategory", pnl)
-		clp:SetSize(390, 150)
+		clp:SetSize(390, 200)
 		clp:SetExpanded(1)
 		clp:SetLabel("Basic Settings")
 
 		local lst = vgui.Create("DPanelList", clp)
 		lst:SetPos(5, 25)
-		lst:SetSize(390, 150)
+		lst:SetSize(390, 250)
 		lst:SetSpacing(5)
 
 		lst:AddItem(xlib.makelabel{
@@ -100,11 +121,11 @@ else
 		})
 
 		lst:AddItem(xlib.makeslider{
-			label = "TTT2 Minigames autostart rounds? (ttt2_minigames_autostart_rounds) (Def. 0)",
+			label = "ttt2_minigames_autostart_rounds (Def. 0)",
 			min = 0,
 			max = 100,
 			decimal = 0,
-			repconvar = "ttt2_minigames_autostart_rounds",
+			repconvar = "rep_ttt2_minigames_autostart_rounds",
 			parent = lst
 		})
 
@@ -127,11 +148,11 @@ else
 		})
 
 		lst:AddItem(xlib.makeslider{
-			label = "TTT2 Minigames autostart randomness? (ttt2_minigames_autostart_random) (Def. 100)",
+			label = "ttt2_minigames_autostart_random (Def. 100)",
 			min = 0,
 			max = 100,
 			decimal = 0,
-			repconvar = "ttt2_minigames_autostart_random",
+			repconvar = "rep_ttt2_minigames_autostart_random",
 			parent = lst
 		})
 
@@ -141,10 +162,7 @@ else
 
 		for i = 1, #mgs do
 			local mg = mgs[i]
-			local cvd = mg.conVarData
-
-			if not istable(cvd) or table.Count(cvd) < 1 then continue end
-
+			local cvd = GetConVarData(mg)
 			local size = 0
 
 			for _, data in pairs(cvd) do
@@ -184,13 +202,13 @@ else
 			for name, data in pairs(cvd) do
 				if data.checkbox then
 					lst:AddItem(xlib.makecheckbox{
-						label = name .. ": " .. (data.desc or ""),
+						label = data.desc or name,
 						repconvar = "rep_" .. name,
 						parent = lst
 					})
 				elseif data.slider then
 					lst:AddItem(xlib.makeslider{
-						label = name .. ": " .. (data.desc or ""),
+						label = data.desc or name,
 						min = data.min or 1,
 						max = data.max or 1000,
 						decimal = data.decimal or 0,
@@ -198,12 +216,10 @@ else
 						parent = lst
 					})
 				elseif data.combobox then
-					if data.desc then
-						lst:AddItem(xlib.makelabel{
-							label = name .. ": " .. (data.desc or ""),
-							parent = lst
-						})
-					end
+					lst:AddItem(xlib.makelabel{
+						label = data.desc or name,
+						parent = lst
+					})
 
 					lst:AddItem(xlib.makecombobox{
 						enableinput = data.enableinput or false,

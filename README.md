@@ -54,46 +54,51 @@ Here is an easy example of a `Minigame`: [Hardcore Minigame](https://github.com/
 #### Hooks (**`shared`**)
 Hook | Utilization
 --- | ---
-`MINIGAME:OnActivation` | Called if the `Minigame` is activated
-`MINIGAME:OnDeactivation` | Called if the `Minigame` is deactivated
+`MINIGAME:PreInitialize()` | Called before the `Minigame`'s data is loaded
+`MINIGAME:SetupData()` | Called as soon as the default data has been loaded and the `Minigame` has be pre-initialized
+`MINIGAME:Initialize()` | Is automatically called as soon as the `Minigame` data has been loaded
+`MINIGAME:OnActivation()` | Called if the `Minigame` is activated
+`MINIGAME:OnDeactivation()` | Called if the `Minigame` is deactivated
 
 #### Functions
 Function | Utilization | Realm
 --- | --- | ---
-`MINIGAME:Activate` | Activates the `Minigame`. By default, this is done autimatically (internally) | `shared`
-`MINIGAME:Deactivate` | Deactivates the `Minigame`. By default, this is done autimatically (internally) | `shared`
-`MINIGAME:IsActive` | Returns whether the `Minigame` is active | `shared`
-`MINIGAME:IsSelectable` | Returns whether the `Minigame` is selectable (and take place in the `minigame`s selection) | `server`
+`MINIGAME:Activate()` | Activates the `Minigame`. By default, this is done autimatically (internally) | `shared`
+`MINIGAME:Deactivate()` | Deactivates the `Minigame`. By default, this is done autimatically (internally) | `shared`
+`MINIGAME:IsActive()` | Returns whether the `Minigame` is active | `shared`
+`MINIGAME:IsSelectable()` | Returns whether the `Minigame` is selectable (and take place in the `minigame`s selection) | `server`
+`MINIGAME:ShowActivationEPOP()` | Should be used to display a EPOP message informing the player about the `Minigame` activation (automatically called as soon as the `Minigame` is activated) | `client`
 
 ### `minigames` module
 #### Functions
 Function | Utilization | Realm
 --- | --- | ---
-`minigames.IsBasedOn` | Checks if name is based on base | `shared`
-`minigames.GetStored` | Gets the real `Minigame` table (not a copy) | `shared`
-`minigames.GetList` | Get a list (copy) of all registered `Minigame`s, that can be displayed (no abstract `Minigame`s) | `shared`
-`minigames.GetRealList`| Get an indexed list of all the registered `Minigame`s including abstract `Minigame`s | `shared`
-`minigames.GetActiveList`| Returns a list of active `Minigame`s | `shared`
-`minigames.GetById` | Get the `Minigame` table by the `Minigame` id | `shared`
-`minigames.ForceNextMinigame` | Forces the next `Minigame` | `server`
-`minigames.GetForcedNextMinigame`| Returns the next forced `Minigame` | `server`
-`minigames.Select`| Selects a `Minigame` based on the current available `Minigame`s | `server`
+`minigames.IsBasedOn(name, base)` | Checks if name is based on base | `shared`
+`minigames.GetStored(name)` | Gets the real `Minigame` table (not a copy) | `shared`
+`minigames.GetList()` | Get a list (copy) of all registered `Minigame`s, that can be displayed (no abstract `Minigame`s) | `shared`
+`minigames.GetRealList()`| Get an indexed list of all the registered `Minigame`s including abstract `Minigame`s | `shared`
+`minigames.GetActiveList()`| Returns a list of active `Minigame`s | `shared`
+`minigames.GetById(id)` | Get the `Minigame` table by the `Minigame` id | `shared`
+`minigames.ForceNextMinigame(minigame)` | Forces the next `Minigame` | `server`
+`minigames.GetForcedNextMinigame()`| Returns the next forced `Minigame` | `server`
+`minigames.Select()`| Selects a `Minigame` based on the current available `Minigame`s | `server`
 
 ### global functions (**`shared`**)
 Function | Utilization
 --- | ---
-`ActivateMinigame` | Activates a `Minigame`. If called on `server`, the sync with the `client`s will be run. If called on `client`, a popup will be displayed for 12 seconds
-`DeactivateMinigame` | Deactivates a `Minigame`. If called on `server`, the sync with the `client`s will be run.
+`ActivateMinigame(minigame)` | Activates a `Minigame`. If called on `server`, the sync with the `client`s will be run. If called on `client`, a popup will be displayed for 12 seconds
+`DeactivateMinigame(minigame)` | Deactivates a `Minigame`. If called on `server`, the sync with the `client`s will be run.
 
 ### `GAMEMODE` hooks (**`shared`**)
 Hook | Utilization
 --- | ---
-`TTT2MGPreActivate`| Called right before the `Minigame` activates
-`TTT2MGActivate` | Called if the `Minigame` activates
-`TTT2MGPostActivate` | Called after the `Minigame` was activated
-`TTT2MGPreDeactivate`| Called right before the `Minigame` deactivates
-`TTT2MGDeactivate` | Called if the `Minigame` deactivates
-`TTT2MGPostDeactivate` | Called after the `Minigame` was deactivated
+`TTT2MGPreActivate(minigame)`| Called right before the `Minigame` activates
+`TTT2MGActivate(minigame)` | Called if the `Minigame` activates
+`TTT2MGPostActivate(minigame)` | Called after the `Minigame` was activated
+`TTT2MGPreDeactivate(minigame)`| Called right before the `Minigame` deactivates
+`TTT2MGDeactivate(minigame)` | Called if the `Minigame` deactivates
+`TTT2MGPostDeactivate(minigame)` | Called after the `Minigame` was deactivated
+`TTT2MinigamesLoaded()` | Called as soon as every `MINIGAME` was loaded
 
 ### Multilanguage support
 Here is an example how to add language support to your `Minigame`:

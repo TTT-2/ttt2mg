@@ -89,11 +89,13 @@ local function SetupData(minigame)
 
 	---
 	-- @name ttt2_minigames_[MINIGAME]_enabled
-	CreateConVar("ttt2_minigames_" .. minigame.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+	CreateConVar("ttt2_minigames_" .. minigame.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 	---
 	-- @name ttt2_minigames_[MINIGAME]_random
-	CreateConVar("ttt2_minigames_" .. minigame.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+	CreateConVar("ttt2_minigames_" .. minigame.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+
+	minigame:SetupData()
 end
 
 ---
@@ -112,14 +114,27 @@ function minigames.OnLoaded()
 		MGList[k] = newTable
 
 		baseclass.Set(k, newTable)
+
+		if not newTable.isAbstract then
+			newTable:PreInitialize()
+		end
 	end
 
-	-- Setup data (eg. convars for all minigames)
+	-- Setup data (eg. convars for all @{MINIGAME}s)
 	for _, v in pairs(MGList) do
 		if not v.isAbstract then
 			SetupData(v)
 		end
 	end
+
+	-- Call Initialize() on all @{MINIGAME}s
+	for _, v in pairs(MGList) do
+		if not v.isAbstract then
+			v:Initialize()
+		end
+	end
+
+	hook.Run("TTT2MinigamesLoaded")
 end
 
 ---
@@ -130,17 +145,19 @@ end
 -- @realm shared
 -- @internal
 function minigames.Get(name, retTbl)
-	local Stored = minigames.GetStored(name)
-	if not Stored then return end
+	local stored = minigames.GetStored(name)
+	if not stored then return end
 
 	-- Create/copy a new table
 	local retval = retTbl or {}
 
-	for k, v in pairs(Stored) do
-		if istable(v) then
-			retval[k] = table.Copy(v)
-		else
-			retval[k] = v
+	if retTbl ~= stored then
+		for k, v in pairs(stored) do
+			if istable(v) then
+				retval[k] = table.Copy(v)
+			else
+				retval[k] = v
+			end
 		end
 	end
 
