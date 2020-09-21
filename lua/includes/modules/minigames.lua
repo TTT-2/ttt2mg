@@ -77,30 +77,6 @@ function minigames.Register(t, name)
 end
 
 ---
--- Automatically generates ConVars based on the minigames data
--- @param table minigame The minigame table
--- @todo ConVar list
--- @realm shared
--- @local
-local function SetupData(minigame)
-	print("[TTT2][MINIGAMES] Adding '" .. minigame.name .. "' minigame...")
-
-	if not SERVER then return end
-
-	---
-	-- @name ttt2_minigames_[MINIGAME]_enabled
-	if not ConVarExists("ttt2_minigames_" .. minigame.name .. "_enabled") then
-		CreateConVar("ttt2_minigames_" .. minigame.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
-	end
-
-	---
-	-- @name ttt2_minigames_[MINIGAME]_random
-	if not ConVarExists("ttt2_minigames_" .. minigame.name .. "_random") then
-		CreateConVar("ttt2_minigames_" .. minigame.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
-	end
-end
-
----
 -- All scripts have been loaded...
 -- @realm shared
 -- @internal
@@ -116,13 +92,6 @@ function minigames.OnLoaded()
 		MGList[k] = newTable
 
 		baseclass.Set(k, newTable)
-	end
-
-	-- Setup data (eg. convars for all minigames)
-	for _, v in pairs(MGList) do
-		if not v.isAbstract then
-			SetupData(v)
-		end
 	end
 end
 
