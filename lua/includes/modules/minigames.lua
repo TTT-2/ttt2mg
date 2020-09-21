@@ -133,6 +133,8 @@ function minigames.OnLoaded()
 			v:Initialize()
 		end
 	end
+
+	hook.Run("TTT2MinigamesLoaded")
 end
 
 ---

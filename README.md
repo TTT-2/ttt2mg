@@ -98,6 +98,7 @@ Hook | Utilization
 `TTT2MGPreDeactivate(minigame)`| Called right before the `Minigame` deactivates
 `TTT2MGDeactivate(minigame)` | Called if the `Minigame` deactivates
 `TTT2MGPostDeactivate(minigame)` | Called after the `Minigame` was deactivated
+`TTT2MinigamesLoaded()` | Called as soon as every `MINIGAME` was loaded
 
 ### Multilanguage support
 Here is an example how to add language support to your `Minigame`:

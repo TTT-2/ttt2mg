@@ -54,7 +54,7 @@ if SERVER then
 	local ttt2_minigames_autostart_rounds = CreateConVar("ttt2_minigames_autostart_rounds", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 	-- ConVar Replicating
-	hook.Add("TTTUlxInitCustomCVar", "TTT2MGInitRWCVar", function()
+	hook.Add("TTT2MinigamesLoaded", "TTT2MGInitRWCVar", function()
 		ULib.replicatedWritableCvar(ttt2_minigames:GetName(), "rep_" .. ttt2_minigames:GetName(), ttt2_minigames:GetBool(), true, true, "xgui_gmsettings")
 		ULib.replicatedWritableCvar(ttt2_minigames_autostart_random:GetName(), "rep_" .. ttt2_minigames_autostart_random:GetName(), ttt2_minigames_autostart_random:GetFloat(), true, true, "xgui_gmsettings")
 		ULib.replicatedWritableCvar(ttt2_minigames_autostart_rounds:GetName(), "rep_" .. ttt2_minigames_autostart_rounds:GetName(), ttt2_minigames_autostart_rounds:GetInt(), true, true, "xgui_gmsettings")
@@ -202,13 +202,13 @@ else
 			for name, data in pairs(cvd) do
 				if data.checkbox then
 					lst:AddItem(xlib.makecheckbox{
-						label = name .. ": " .. (data.desc or ""),
+						label = data.desc or name,
 						repconvar = "rep_" .. name,
 						parent = lst
 					})
 				elseif data.slider then
 					lst:AddItem(xlib.makeslider{
-						label = name .. ": " .. (data.desc or ""),
+						label = data.desc or name,
 						min = data.min or 1,
 						max = data.max or 1000,
 						decimal = data.decimal or 0,
@@ -216,12 +216,10 @@ else
 						parent = lst
 					})
 				elseif data.combobox then
-					if data.desc then
-						lst:AddItem(xlib.makelabel{
-							label = name .. ": " .. (data.desc or ""),
-							parent = lst
-						})
-					end
+					lst:AddItem(xlib.makelabel{
+						label = data.desc or name,
+						parent = lst
+					})
 
 					lst:AddItem(xlib.makecombobox{
 						enableinput = data.enableinput or false,
