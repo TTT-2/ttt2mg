@@ -42,13 +42,19 @@ if SERVER then
 		for i = 1, #mgs do
 			local mg = mgs[i]
 			local cvd = mg.conVarData
-
-
-			local mg_enable = CreateConVar("ttt2_minigames_" .. mg.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
-			local mg_random = CreateConVar("ttt2_minigames_" .. mg.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
-
-			ULib.replicatedWritableCvar(mg_enable:GetName(), "rep_" .. mg_enable:GetName(), mg_enable:GetBool(), true, true, "xgui_gmsettings")
-			ULib.replicatedWritableCvar(mg_random:GetName(), "rep_" .. mg_random:GetName(), mg_enable:GetInt(), true, true, "xgui_gmsettings")
+			local mg_enable = {
+						name = "ttt2_minigames_" .. mg.name .. "_enabled",
+						checkbox = true
+					}
+			local mg_random = {
+				name = "ttt2_minigames_" .. mg.name .. "_random",
+				slider = true
+			}
+			CreateConVar("ttt2_minigames_" .. mg.name .. "_enabled", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+			CreateConVar("ttt2_minigames_" .. mg.name .. "_random", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+			--
+			AutoReplicateConVar(mg_enable.name, mg_enable)
+			AutoReplicateConVar(mg_random.name, mg_random)
 
 			if not istable(cvd) or table.Count(cvd) < 1 then continue end
 
@@ -150,6 +156,7 @@ else
 			local mg = mgs[i]
 			local cvd = mg.conVarData
 
+
 			local size = 30
 
 			if not istable(cvd) or table.Count(cvd) < 1 then
@@ -157,28 +164,27 @@ else
 			else
 				for _, data in pairs(cvd) do
 					if data.slider then
-						size = size + 30
-					end
-
-					if data.checkbox then
 						size = size + 25
 					end
 
+					if data.checkbox then
+						size = size + 20
+					end
+
 					if data.combobox then
-						size = size + 35
+						size = size + 30
 
 						if data.desc then
-							size = size + 20
+							size = size + 13
 						end
 					end
 
 					if data.label then
-						size = size + 20
+						size = size + 13
 					end
 				end
+				size = size + 10
 			end
-
-			size = size + 10
 
 			clp = vgui.Create("DCollapsibleCategory", pnl)
 			clp:SetSize(390, size)
@@ -203,33 +209,11 @@ else
 				min = 0,
 				max = 100,
 				decimal = 0,
-				parent = lst,
-				repconvar = "rep_ttt2_minigames_" .. mg.name .. "_random"
+				repconvar = "rep_ttt2_minigames_" .. mg.name .. "_random",
+				parent = lst
 			})
 
 			if not istable(cvd) or table.Count(cvd) < 1 then continue end
-
-			-- for _, data in pairs(cvd) do
-			-- 	if data.slider then
-			-- 		size = size + 25
-			-- 	end
-			--
-			-- 	if data.checkbox then
-			-- 		size = size + 20
-			-- 	end
-			--
-			-- 	if data.combobox then
-			-- 		size = size + 30
-			--
-			-- 		if data.desc then
-			-- 			size = size + 13
-			-- 		end
-			-- 	end
-			--
-			-- 	if data.label then
-			-- 		size = size + 13
-			-- 	end
-			-- end
 
 			for name, data in pairs(cvd) do
 				if data.checkbox then
