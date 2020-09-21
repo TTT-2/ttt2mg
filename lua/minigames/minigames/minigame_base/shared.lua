@@ -97,7 +97,9 @@ else
 				color = COLOR_ORANGE
 			},
 			self.lang.desc and LANG.TryTranslation("ttt2_minigames_" .. self.name .. "_desc") or nil,
-			12
+			12,
+			nil,
+			true
 		)
 	end
 end
