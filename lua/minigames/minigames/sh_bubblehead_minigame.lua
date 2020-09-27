@@ -23,9 +23,11 @@ if CLIENT then
 	MINIGAME.lang = {
 		name = {
 			English = "Bubblehead Minigame"
+			Русский = "Мини-игра яйцеголовый"
 		},
 		desc = {
 			English = "Make a headshot, make a kill. It shouldn't be as hard as it sounds..."
+			Русский = "Сделать выстрел в голову и убить. Это не так сложно, как кажется..."
 		}
 	}
 else
