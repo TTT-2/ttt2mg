@@ -60,10 +60,3 @@ for i = 1, #minigamesFolders do
 end
 
 MINIGAME = oldMINIGAME
-
--- include minigames base files
-if SERVER then
-	AddCSLuaFile("minigames/engine/sh_init.lua")
-end
-
-include("minigames/engine/sh_init.lua")
