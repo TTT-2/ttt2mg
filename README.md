@@ -46,7 +46,7 @@ function MINIGAME:OnDeactivation()
 end
 ```
 
-Here is an easy example of a `Minigame`: [Hardcore Minigame](https://github.com/TTT-2/ttt2mg/blob/master/lua/minigames/minigames/sh_hardcore_minigame.lua)
+Here is an easy example of a `Minigame`: [Hardcore Minigame](https://github.com/TTT-2/ttt2mg-pack_1/blob/master/lua/minigames/minigames/sh_hardcore_minigame.lua)
 
 ## How to customize and interact with this TTT2 gamemode?
 
