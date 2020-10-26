@@ -67,4 +67,36 @@ local forceminigame = ulx.command(CATEGORY_NAME, "ulx forceminigame", ulx.forcem
 forceminigame:addParam{type = ULib.cmds.StringArg, completes = ulx.target_minigames, hint = "- Select Minigame -", ULib.cmds.restrictToCompletes}
 forceminigame:defaultAccess(ULib.ACCESS_SUPERADMIN)
 forceminigame:help("Forces a specific minigame.")
+
+--
+
+---
+-- Triggers a specific minigame
+-- @param Player calling_ply The player who used the command
+-- @param string target_minigame The specific minigame id
+function ulx.triggerminigame(calling_ply, target_minigame)
+    if not CheckForTerrortown(calling_ply) then return end
+
+    local mg = minigames.GetStored(target_minigame)
+    if not mg then
+        ulx.fancyLogAdmin(calling_ply, "The selected minigame '#s' doesn't exist", target_minigame)
+
+        return
+    end
+
+    if mg:IsActive() then
+        ulx.fancyLogAdmin(calling_ply, "The selected minigame '#s' is already active", target_minigame)
+
+        return
+    end
+
+    ActivateMinigame(mg)
+
+    ulx.fancyLogAdmin(calling_ply, "#A triggered minigame '#s'", target_minigame)
+end
+
+local triggerminigame = ulx.command(CATEGORY_NAME, "ulx triggerminigame", ulx.triggerminigame, "!triggerminigame")
+triggerminigame:addParam{type = ULib.cmds.StringArg, completes = ulx.target_minigames, hint = "- Select Minigame -", ULib.cmds.restrictToCompletes}
+triggerminigame:defaultAccess(ULib.ACCESS_SUPERADMIN)
+triggerminigame:help("Triggers a specific minigame.")
 --[End]----------------------------------------------------------------------------------------
