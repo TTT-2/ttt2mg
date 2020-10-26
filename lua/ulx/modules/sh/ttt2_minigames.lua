@@ -32,8 +32,10 @@ function updateMinigames()
     local mgs = minigames.GetList()
 
     for i = 1, #mgs do
-        ulx.target_minigames[#ulx.target_minigames + 1] = mgs[i].name
+        ulx.target_minigames[i] = mgs[i].name
     end
+
+    table.sort(ulx.target_minigames)
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXMinigamesNamesUpdate", updateMinigames)
@@ -64,6 +66,5 @@ end
 local forceminigame = ulx.command(CATEGORY_NAME, "ulx forceminigame", ulx.forceminigame, "!forceminigame")
 forceminigame:addParam{type = ULib.cmds.StringArg, completes = ulx.target_minigames, hint = "- Select Minigame -", ULib.cmds.restrictToCompletes}
 forceminigame:defaultAccess(ULib.ACCESS_SUPERADMIN)
-forceminigame:setOpposite("ulx silent forceminigame", {nil, nil, nil, true}, "!sforceminigame", true)
 forceminigame:help("Forces a specific minigame.")
 --[End]----------------------------------------------------------------------------------------
