@@ -116,7 +116,7 @@ else
 			y = 0,
 			w = 415,
 			wordwrap = true,
-			label = "Setting TTT2 Minigames autostart rounds to 2 will lead to the result that a random minigame is activated on every second round. Setting it to 0 will activate the autostart randomness and vice-versa.",
+			label = "Setting TTT2 Minigames autostart rounds to 2 will lead to the result that a random minigame is activated on every second round. Setting it to 0 will activate the autostart randomness and vice-versa. Keep in mind that the round counting restarts on map change!",
 			parent = lst
 		})
 

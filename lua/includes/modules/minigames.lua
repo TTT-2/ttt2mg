@@ -280,12 +280,15 @@ if SERVER then
 		local autostartRounds = GetConVar("ttt2_minigames_autostart_rounds"):GetInt()
 
 		if autostartRounds > 0 then
-			local roundCount = GetConVar("ttt_round_limit"):GetInt() - GetGlobalInt("ttt_rounds_left")
+			local maxRounds = GetConVar("ttt_round_limit"):GetInt()
+
+			-- using maxRounds as a fallback, because if ttt_rounds_left is broken / not supported, this will always fail, if auto rounds not set to 1
+			local roundCount = maxRounds - GetGlobalInt("ttt_rounds_left", maxRounds) + 1 -- add +1, because round increase is done in the end of the round
 
 			return roundCount % autostartRounds == 0
 		end
 
-		return math.random(100) <= GetConVar("ttt2_minigames_autostart_random"):GetFloat()
+		return math.random(100) <= GetConVar("ttt2_minigames_autostart_random"):GetInt()
 	end
 end
 
