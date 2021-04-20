@@ -1,21 +1,16 @@
 if SERVER then
 	local ttt2_minigames = GetConVar("ttt2_minigames")
 
-	hook.Add("TTTPrepareRound", "TTT2MGPrepareRound", function()
+	local function DeactivateAllMinigames()
 		local activeMinigames = minigames.GetActiveList()
 
 		for i = 1, #activeMinigames do
 			DeactivateMinigame(activeMinigames[i])
 		end
-	end)
+	end
 
-	hook.Add("TTTEndRound", "TTT2MGEndRound", function()
-		local activeMinigames = minigames.GetActiveList()
-
-		for i = 1, #activeMinigames do
-			DeactivateMinigame(activeMinigames[i])
-		end
-	end)
+	hook.Add("TTTPrepareRound", "TTT2MGPrepareRound", DeactivateAllMinigames)
+	hook.Add("TTTEndRound", "TTT2MGEndRound", DeactivateAllMinigames)
 
 	hook.Add("TTTBeginRound", "TTT2MGSync", function()
 		if not ttt2_minigames:GetBool() or not minigames.CheckAutostart() then return end
