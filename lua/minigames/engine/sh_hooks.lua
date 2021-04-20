@@ -1,7 +1,15 @@
 if SERVER then
 	local ttt2_minigames = GetConVar("ttt2_minigames")
 
-	hook.Add("TTTEndRound", "TTT2MGPrepareRound", function()
+	hook.Add("TTTPrepareRound", "TTT2MGPrepareRound", function()
+		local activeMinigames = minigames.GetActiveList()
+
+		for i = 1, #activeMinigames do
+			DeactivateMinigame(activeMinigames[i])
+		end
+	end)
+
+	hook.Add("TTTEndRound", "TTT2MGEndRound", function()
 		local activeMinigames = minigames.GetActiveList()
 
 		for i = 1, #activeMinigames do
