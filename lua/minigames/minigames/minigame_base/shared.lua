@@ -36,6 +36,7 @@ function MINIGAME:Activate()
 	self:OnActivation()
 
 	self.m_bActive = true
+	
 	if SERVER then
 		events.Trigger(EVENT_MINIGAME, self) -- Trigger event for @{MINIGAME}
 	end
