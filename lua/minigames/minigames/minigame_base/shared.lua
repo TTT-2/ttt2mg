@@ -36,6 +36,9 @@ function MINIGAME:Activate()
 	self:OnActivation()
 
 	self.m_bActive = true
+	if SERVER then
+		events.Trigger(EVENT_MINIGAME, self) -- Trigger event for @{MINIGAME}
+	end
 
 	if CLIENT and GetConVar("ttt2_minigames_show_popup"):GetBool() then -- show popup if the @{MINIGAME} is activated
 		self:ShowActivationEPOP()
