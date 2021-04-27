@@ -1,6 +1,6 @@
-
 if SERVER then
     AddCSLuaFile()
+
     resource.AddFile("materials/vgui/ttt/dynamic/minigames/mg_icon.vmt")
 end
 
