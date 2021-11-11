@@ -4,19 +4,13 @@ CLGAMEMODESUBMENU.title = "submenu_addons_ttt2mg_title"
 function CLGAMEMODESUBMENU:Populate(parent)
     local form = vgui.CreateTTT2Form(parent, "header_addons_ttt2mg")
 
-    local masterEnb = form:MakeCheckBox({
-        label = "label_ttt2_minigames_enable",
-        serverConvar = "ttt2_minigames"
-    })
-
     form:MakeHelp({
         label = "label_ttt2_minigames_enabled_info"
     })
 
-    form:MakeCheckBox({
-        label = "",
-        serverConvar = "",
-        master = masterEnb
+    local masterEnb = form:MakeCheckBox({
+        label = "label_ttt2_minigames_enable",
+        serverConvar = "ttt2_minigames"
     })
 
     form:MakeHelp({
@@ -27,7 +21,7 @@ function CLGAMEMODESUBMENU:Populate(parent)
         label = "label_ttt2_minigames_autostart_rounds",
         serverConvar = "ttt2_minigames_autostart_rounds",
         min = 0,
-        max = 100,
+        max = 30,
         decimal = 0,
         master = masterEnb
     })
@@ -44,3 +38,4 @@ function CLGAMEMODESUBMENU:Populate(parent)
         decimal = 0,
         master = masterEnb
     })
+end
