@@ -19,7 +19,6 @@ end
 function CLGAMEMODEMENU:InitializeVirtualMenus()
     virtualSubmenus = {}
 
-    -- TODO does this work?
     local allMinigames = minigames.GetList()
     local minigamesMenuBase = self:GetSubmenuByName("base_minigames")
 
@@ -51,5 +50,5 @@ function CLGAMEMODEMENU:HasSearchbar()
 end
 
 function CLGAMEMODEMENU:ShouldShow()
-    return true --/GetGlobalBool("ttt2_minigames") and self.BaseClass.ShouldShow(self)
+    return GetGlobalBool("ttt2_minigames") and self.BaseClass.ShouldShow(self)
 end
