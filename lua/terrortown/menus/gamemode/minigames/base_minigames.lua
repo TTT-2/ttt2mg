@@ -6,17 +6,19 @@ function CLGAMEMODESUBMENU:Populate(parent)
 
 	local form = vgui.CreateTTT2Form(parent, "ttt2_minigames_" .. self.minigameData.name .. "_name")
 
-	form:MakeHelp({
-		label = "ttt2_minigames_" .. minigameName .. "_desc",
-	})
+	if LANG.TryTranslation("ttt2_minigames_" .. minigameName .. "_desc") ~= "" then
+		form:MakeHelp({
+			label = "ttt2_minigames_" .. minigameName .. "_desc",
+		})
+	else
+		form:MakeHelp({
+			label = "label_ttt2_minigames_no_desc",
+		})
+	end
 
-	form:MakeCheckBox({
-		label = "label_ttt2_minigames_minigame_enabled",
-		params = {
-			name = "ttt2_minigames_" .. minigameName .. "_name"
-		},
+	local masterEnb = form:MakeCheckBox({
 		serverConvar = "ttt2_minigames_" .. minigameName .. "_enabled",
-		master = masterEnb
+		label = "label_ttt2_minigames_minigame_enabled"
 	})
 
 	form:MakeSlider({

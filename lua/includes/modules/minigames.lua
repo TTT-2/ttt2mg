@@ -11,6 +11,8 @@ local istable = istable
 
 if SERVER then
 	AddCSLuaFile()
+
+	resource.AddFile("materials/vgui/ttt/vskin/helpscreen/ttt2mg.vmt")
 end
 
 local MGList = MGList or {}

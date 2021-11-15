@@ -46,7 +46,3 @@ end
 function CLGAMEMODEMENU:HasSearchbar()
 	return true
 end
-
-function CLGAMEMODEMENU:ShouldShow()
-	return GetGlobalBool("ttt2_minigames") and self.BaseClass.ShouldShow(self)
-end

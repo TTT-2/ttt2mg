@@ -1,6 +1,6 @@
 "UnlitGeneric"
 {
-	"$basetexture" "vgui/ttt/dynamic/minigames/ttt2mg"
+	"$basetexture" "vgui/ttt/vskin/helpscreen/ttt2mg"
 	"$nocull" 1
 	"$nodecal" 1
 	"$nolod" 1
