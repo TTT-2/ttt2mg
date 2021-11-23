@@ -36,7 +36,7 @@ function MINIGAME:Activate()
 	self:OnActivation()
 
 	self.m_bActive = true
-	
+
 	if SERVER then
 		events.Trigger(EVENT_MINIGAME, self) -- Trigger event for @{MINIGAME}
 	end
@@ -105,5 +105,14 @@ else
 			nil,
 			true
 		)
+	end
+
+	---
+	-- This function can be used to add settings to the minigame panel in the F1 menu.
+	-- @param Panel parent The parent panel
+	-- @hook
+	-- @realm client
+	function MINIGAME:AddToSettingsMenu(parent)
+
 	end
 end

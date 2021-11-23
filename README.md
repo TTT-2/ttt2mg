@@ -1,12 +1,16 @@
-# ttt2mg
+# TTT2 Minigames
+
 The TTT2 Minigames gamemode. It adds custom minigames into TTT2. It fully supports TTT2 ULX.
 
 # Customization
+
 ## TTT2 ULX
+
 You can modify or force a gamemode with the help of TTT2 ULX
 
 ## ConVars
-If you don't wanna use TTT2 ULX, you can modify these ConVars on your own:
+
+If you don't want to use TTT2 ULX, you can modify these ConVars on your own:
 
 ConVar | Utilization | Realm
 --- | --- | ---
@@ -16,6 +20,7 @@ ConVar | Utilization | Realm
 `ttt2_minigames_show_popup` | Toggle whether the `Minigame`'s name and the description should be displayed on start | `client`
 
 # Developer section
+
 ## How to create a custom `Minigame`?
 
 1. Create a folder with the add-on name you prefere (need to be an unique folder name). Pay attention to keep the name lowercase.
@@ -51,16 +56,20 @@ Here is an easy example of a `Minigame`: [Hardcore Minigame](https://github.com/
 ## How to customize and interact with this TTT2 gamemode?
 
 ### MINIGAME
-#### Hooks (**`shared`**)
-Hook | Utilization
---- | ---
-`MINIGAME:PreInitialize()` | Called before the `Minigame`'s data is loaded
-`MINIGAME:SetupData()` | Called as soon as the default data has been loaded and the `Minigame` has be pre-initialized
-`MINIGAME:Initialize()` | Is automatically called as soon as the `Minigame` data has been loaded
-`MINIGAME:OnActivation()` | Called if the `Minigame` is activated
-`MINIGAME:OnDeactivation()` | Called if the `Minigame` is deactivated
+
+#### Hooks
+
+Hook | Utilization | Realm
+--- | --- | ---
+`MINIGAME:PreInitialize()` | Called before the `Minigame`'s data is loaded | `shared`
+`MINIGAME:SetupData()` | Called as soon as the default data has been loaded and the `Minigame` has be pre-initialized | `shared`
+`MINIGAME:Initialize()` | Is automatically called as soon as the `Minigame` data has been loaded | `shared`
+`MINIGAME:OnActivation()` | Called if the `Minigame` is activated | `shared`
+`MINIGAME:OnDeactivation()` | Called if the `Minigame` is deactivated | `shared`
+`MINIGAME:AddToSettingsMenu(parent)` | Called to populate the minigame settings panel | `client`
 
 #### Functions
+
 Function | Utilization | Realm
 --- | --- | ---
 `MINIGAME:Activate()` | Activates the `Minigame`. By default, this is done autimatically (internally) | `shared`
@@ -70,7 +79,9 @@ Function | Utilization | Realm
 `MINIGAME:ShowActivationEPOP()` | Should be used to display a EPOP message informing the player about the `Minigame` activation (automatically called as soon as the `Minigame` is activated) | `client`
 
 ### `minigames` module
+
 #### Functions
+
 Function | Utilization | Realm
 --- | --- | ---
 `minigames.IsBasedOn(name, base)` | Checks if name is based on base | `shared`
@@ -84,12 +95,14 @@ Function | Utilization | Realm
 `minigames.Select()`| Selects a `Minigame` based on the current available `Minigame`s | `server`
 
 ### global functions (**`shared`**)
+
 Function | Utilization
 --- | ---
 `ActivateMinigame(minigame)` | Activates a `Minigame`. If called on `server`, the sync with the `client`s will be run. If called on `client`, a popup will be displayed for 12 seconds
 `DeactivateMinigame(minigame)` | Deactivates a `Minigame`. If called on `server`, the sync with the `client`s will be run.
 
 ### `GAMEMODE` hooks (**`shared`**)
+
 Hook | Utilization
 --- | ---
 `TTT2MGPreActivate(minigame)`| Called right before the `Minigame` activates
@@ -101,34 +114,16 @@ Hook | Utilization
 `TTT2MinigamesLoaded()` | Called as soon as every `MINIGAME` was loaded
 
 ### Multilanguage support
+
 Here is an example how to add language support to your `Minigame`:
 
 ```lua
 MINIGAME.lang = {
-	name = {
-		English = "Example Minigame"
-	},
-	desc = {
-		English = "Some interesting facts about or something similar."
-	}
-}
-```
-
-### Dynamical ULX ConVar support
-If you wanna add ConVars with ULX support easily to your `Minigame`, use this codesnippet:
-
-```lua
-MINIGAME.conVarData = {
-	ttt2_minigames_minigamename_uniquename = { -- the ConVar name. Should match the serverside ConVar name
-		slider = true, -- if it's a number, you should use a slider
-		min = 1,
-		max = 2,
-		decimal = 2, -- it's a float
-		desc = "Set the ... (Def. 1.5)"
-	},
-	ttt2_minigames_minigamename_bool = {
-		checkbox = true, -- if it's a bool, you should use a checkbox
-		desc = "Toggle ... (Def. 1)"
-	}
+    name = {
+        English = "Example Minigame"
+    },
+    desc = {
+        English = "Some interesting facts about or something similar."
+    }
 }
 ```

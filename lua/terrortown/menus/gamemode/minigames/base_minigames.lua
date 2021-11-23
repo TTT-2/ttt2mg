@@ -29,4 +29,33 @@ function CLGAMEMODESUBMENU:Populate(parent)
 		decimal = 0,
 		master = masterEnb
 	})
+
+	self.minigameData:AddToSettingsMenu(parent)
+
+	-- deprecated fallback for convar settings
+	if table.Count(self.minigameData.conVarData or {}) == 0 then return end
+
+	local form2 = vgui.CreateTTT2Form(parent, "header_minigames_extra_settings")
+
+	for cvar, data in pairs(self.minigameData.conVarData) do
+		if data.checkbox then
+			form2:MakeCheckBox({
+				serverConvar = cvar,
+				label = data.desc
+			})
+		elseif data.slider then
+			form2:MakeSlider({
+				serverConvar = cvar,
+				label = data.desc,
+				min = data.min or 1,
+				max = data.max or 1000,
+				decimal = data.decimal or 0
+			})
+		elseif data.label then
+			form2:MakeHelp({
+				label = data.desc
+			})
+		end
+		-- ToDo: Combo Box is missing
+	end
 end
