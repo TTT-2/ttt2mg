@@ -5,8 +5,8 @@ local virtualSubmenus = {}
 CLGAMEMODEMENU.base = "base_gamemodemenu"
 
 CLGAMEMODEMENU.icon = Material("vgui/ttt/vskin/helpscreen/ttt2mg")
-CLGAMEMODEMENU.title = "menu_ttt2_minigames_title"
-CLGAMEMODEMENU.description = "menu_ttt2_minigames_description"
+CLGAMEMODEMENU.title = "menu_minigames_title"
+CLGAMEMODEMENU.description = "menu_minigames_description"
 CLGAMEMODEMENU.priority = 40
 
 CLGAMEMODEMENU.isInitialized = false

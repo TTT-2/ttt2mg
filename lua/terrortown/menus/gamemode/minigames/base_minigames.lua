@@ -12,17 +12,17 @@ function CLGAMEMODESUBMENU:Populate(parent)
 		})
 	else
 		form:MakeHelp({
-			label = "label_ttt2_minigames_no_desc",
+			label = "label_minigames_no_desc",
 		})
 	end
 
 	local masterEnb = form:MakeCheckBox({
 		serverConvar = "ttt2_minigames_" .. minigameName .. "_enabled",
-		label = "label_ttt2_minigames_minigame_enabled"
+		label = "label_minigames_minigame_enabled"
 	})
 
 	form:MakeSlider({
-		label = "label_ttt2_minigames_minigame_random",
+		label = "label_minigames_minigame_random",
 		serverConvar = "ttt2_minigames_" .. minigameName .. "_random",
 		min = 0,
 		max = 100,
