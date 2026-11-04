@@ -325,3 +325,76 @@ function minigames.GetById(id)
 		end
 	end
 end
+
+if SERVER then
+	util.AddNetworkString("TTT2RequestEnabledMinigames")
+
+	---
+	-- Answers the request for the enabled minigames by sending the names of all minigames whose
+	-- enabled convar is set.
+	-- @param Player ply The player that requested the enabled minigames
+	-- @realm server
+	net.Receive("TTT2RequestEnabledMinigames", function(_, ply)
+		local requestID = net.ReadUInt(8)
+		local enabledMinigames = {}
+		local minigameList = minigames.GetList()
+
+		for i = 1, #minigameList do
+			local minigameData = minigameList[i]
+			local enabledConVar = GetConVar("ttt2_minigames_" .. minigameData.name .. "_enabled")
+
+			-- the convars are created on the server only, clients cannot read them
+			if enabledConVar and enabledConVar:GetBool() then
+				enabledMinigames[#enabledMinigames + 1] = minigameData.name
+			end
+		end
+
+		net.Start("TTT2RequestEnabledMinigames")
+		net.WriteUInt(requestID, 8)
+		net.WriteUInt(#enabledMinigames, 8)
+
+		for i = 1, #enabledMinigames do
+			net.WriteString(enabledMinigames[i])
+		end
+
+		net.Send(ply)
+	end)
+else
+	local networkRequestID = 0
+	local networkReceiveFuncs = {}
+
+	net.Receive("TTT2RequestEnabledMinigames", function()
+		local requestID = net.ReadUInt(8)
+		local minigameCount = net.ReadUInt(8)
+		local enabledMinigames = {}
+
+		for i = 1, minigameCount do
+			enabledMinigames[net.ReadString()] = true
+		end
+
+		local callback = networkReceiveFuncs[requestID]
+
+		if not callback then
+			return
+		end
+
+		networkReceiveFuncs[requestID] = nil
+
+		callback(enabledMinigames)
+	end)
+
+	---
+	-- Requests a table of all minigames that are currently enabled on the server. Minigames
+	-- that are disabled in the minigame settings are not included, as they cannot be played.
+	-- @note The enabled convars are created on the server only, which is why they are requested.
+	-- @param function callback Called with a table of minigame names that are enabled
+	-- @realm client
+	function minigames.RequestEnabledMinigames(callback)
+		networkRequestID = networkRequestID % 255 + 1
+		networkReceiveFuncs[networkRequestID] = callback
+
+		net.Start("TTT2RequestEnabledMinigames")
+		net.WriteUInt(networkRequestID, 8)
+		net.SendToServer()
+	end
+end
