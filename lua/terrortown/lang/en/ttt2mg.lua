@@ -21,5 +21,9 @@ L["submenu_addons_ttt2mg_title"] = "TTT2 Minigames"
 L["header_addons_ttt2mg"] = "Minigames Settings"
 L["header_minigames_extra_settings"] = "Additional Minigame Settings"
 
+L["submenu_guide_minigames_title"] = "Minigames"
+L["guide_minigame_no_description"] = "No description has been provided for this minigame."
+L["guide_minigame_none"] = "No minigames are enabled on this server."
+
 L["help_minigames_show_popup"] = "The minigames popup is displayed after a new minigame got triggered. It contains the name and the description of the minigame."
 L["label_minigames_show_popup"] = "Enable popups"
